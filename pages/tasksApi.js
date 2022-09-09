@@ -14,23 +14,12 @@ export default {
         console.log("error:", error);
       });
   },
-  // getTask: (tarefaId) => {
-  //   axios
-  //     .get(`/tasks/${tarefaId}`)
-  //     .then((response) => {
-  //       callback(response.data);
-  //       console.log("get foi");
-  //     })
-  //     .catch((error) => {
-  //       console.log("error:", error);
-  //     });
-  // },
-  postTasks: (callback) => {
+  postTasks: (tasksData, callback) => {
     axios
-      .post("/tasks")
+      .post("/tasks", tasksData)
       .then((response) => {
         callback(response.data);
-        this.getTasks();
+        console.log(tasksData);
       })
       .catch((error) => {
         console.log("error:", error);
@@ -48,7 +37,6 @@ export default {
       });
   },
   deleteTasks: (tarefaId, callback) => {
-    debugger;
     axios
       .delete(`/tasks/${tarefaId}`)
       .then((response) => {

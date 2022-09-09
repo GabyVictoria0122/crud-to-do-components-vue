@@ -4,59 +4,19 @@
     <task-list
       :tasks="tasks"
       @deleteTasks="delTarefas"
-      v-show="mostrar"
+      v-show="mostrarListaTasks"
     ></task-list>
     <div style="margin-bottom: 3%" class="plus center-align add">
-      <a
+      <button
         class="btn-floating btn-large waves-effect waves-light"
-        @click="mostrar = false"
+        @click="mostrarListaTasks = false"
+        v-show="mostrarListaTasks"
       >
         <i class="fa-solid fa-plus light-blue lighten-2"></i>
-      </a>
+      </button>
     </div>
-
-    <div class="card-content" v-show="!mostrar">
-      <h2>New Task</h2>
-      <form action="">
-        <div class="input-field col s12">
-          <input
-            placeholder="Title"
-            id="title"
-            type="text"
-            class="validate"
-            required
-          />
-          <label for="title">Title</label>
-        </div>
-
-        <div class="input-field col s12">
-          <div>
-            <label for="project">Pick a Project</label>
-          </div>
-          <select
-            class="browser-default col s12 disabled"
-            id="project"
-            name="project"
-          >
-            <option value="" disabled selected>Choose your option</option>
-            <option value="Estudos">Estudos</option>
-            <option value="Financeiro">Financeiro</option>
-            <option value="Trabalho">Trabalho</option>
-          </select>
-        </div>
-
-        <div class="input-field col s12">
-          <input type="date" class="datepicker" id="dueTo" />
-          <label for="dueTo">Date due to</label>
-        </div>
-        <div class="input-field col s12"></div>
-        <a
-          class="waves-effect waves-light btn-large light-blue lighten-2"
-          id="btnSave"
-          >Save</a
-        >
-      </form>
-    </div>
+    <TaskForm @salvarClick="addTarefas" v-show="!mostrarListaTasks" />
+    <EditTask />
     <FooterBar />
   </div>
 </template>
@@ -65,6 +25,9 @@
 import Search from "../src/components/Search.vue";
 import FooterBar from "../src/components/FooterBar.vue";
 import TaskList from "../src/components/TaskList.vue";
+import TaskForm from "../src/components/TaskForm.vue";
+import EditTask from "../src/components/EditTask.vue";
+
 import tasksApi from "./tasksApi.js";
 
 import axios from "axios";
@@ -76,13 +39,15 @@ export default {
   data() {
     return {
       tasks: [],
-      mostrar: true,
+      mostrarListaTasks: true,
     };
   },
   components: {
     Search,
     FooterBar,
     TaskList,
+    TaskForm,
+    EditTask,
   },
   methods: {
     obterTarefas() {
@@ -90,14 +55,16 @@ export default {
         this.tasks = respostaApi;
       });
     },
-    addTarefas() {
-      tasksApi.postTasks((respostaApi) => {
-        this.tasks = respostaApi;
+    addTarefas(novaTarefa) {
+      tasksApi.postTasks(novaTarefa, () => {
+        this.obterTarefas();
+        this.mostrarListaTasks = true;
       });
     },
     attTarefas() {
       tasksApi.putTasks((respostaApi) => {
         this.tasks = respostaApi;
+        this.obterTarefas();
       });
     },
     delTarefas(tarefaId) {
