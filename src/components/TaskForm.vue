@@ -9,7 +9,7 @@
             <div class="card horizontal">
               <div class="card-stacked">
                 <div class="card-content">
-                  <h2>New Task</h2>
+                  <h2>{{ titulo }}</h2>
                   <form action="">
                     <div class="input-field col s12">
                       <input
@@ -18,7 +18,9 @@
                         type="text"
                         class="validate"
                         required
-                        v-model="form.title"
+                        name="title"
+                        :value="title"
+                        @input="form.title = $event.target.value"
                       />
                       <label for="title">Title</label>
                     </div>
@@ -31,7 +33,8 @@
                         class="browser-default col s12 disabled"
                         id="project"
                         name="project"
-                        v-model="form.project"
+                        :value="project"
+                        @input="form.project = $event.target.value"
                       >
                         <option value="" disabled selected>
                           Choose your option
@@ -44,10 +47,11 @@
 
                     <div class="input-field col s12">
                       <input
-                        v-model="form.date"
+                        @input="form.dueTo = $event.target.value"
                         type="date"
                         class="datepicker"
                         id="dueTo"
+                        :value="dueTo"
                       />
                       <label for="dueTo">Date due to</label>
                     </div>
@@ -57,7 +61,7 @@
                       class="waves-effect waves-light btn-large light-blue lighten-2"
                       id="btnSave"
                     >
-                      Save
+                      {{ btn }}
                     </button>
                   </form>
                 </div>
@@ -72,6 +76,7 @@
 
 <script>
 export default {
+  props: ["titulo", "title", "project", "btn", "id"],
   data() {
     return {
       form: {
@@ -80,6 +85,7 @@ export default {
         dueTo: null,
         project: null,
         usuario: null,
+        // titulo: null,
       },
     };
   },
@@ -90,7 +96,13 @@ export default {
         dueTo: this.form.dueTo,
         project: this.form.project,
       };
-      this.$emit("salvarClick", novaTarefa);
+      if (this.btn == "Adicionar") {
+        this.$emit("salvarClick", novaTarefa);
+        // this.titulo = "Adicione uma nova Tarefa";
+      } else {
+        novaTarefa.id = this.id;
+        this.$emit("alterarClick", novaTarefa);
+      }
     },
   },
 };

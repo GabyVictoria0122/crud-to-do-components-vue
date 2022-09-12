@@ -1,28 +1,34 @@
 {
   "tasks": [
     {
-      "title": "edit2",
-      "project": "Financeiro",
-      "dueTo": null,
-      "id": 2
-    },
-    {
-      "title": "AAAA",
-      "dueTo": null,
-      "project": "Financeiro",
+      "title": "EEE, agr ta indo bonitinho ",
+      "dueTo": "2022-09-14",
+      "project": "Estudos",
       "id": 4
     },
     {
-      "title": "New list no componente",
-      "dueTo": null,
+      "title": "Edit tá indo? noo",
+      "dueTo": "2022-09-14",
       "project": "Estudos",
-      "id": 6
+      "id": 8
     },
     {
-      "title": "gdnfxhcmcfh",
-      "dueTo": null,
-      "project": null,
-      "id": 7
+      "title": "Data vai?",
+      "dueTo": "2022-09-20",
+      "project": "Financeiro",
+      "id": 9
+    },
+    {
+      "title": "Acho que agr está tudo funcionando",
+      "dueTo": "2022-09-14",
+      "project": "Estudos",
+      "id": 10
+    },
+    {
+      "title": "Edit ainda apaga os projects e due to ",
+      "dueTo": "2022-09-15",
+      "project": "Estudos",
+      "id": 12
     }
   ]
 }

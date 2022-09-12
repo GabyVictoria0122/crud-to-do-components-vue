@@ -3,20 +3,30 @@
     <Search />
     <task-list
       :tasks="tasks"
+      @editarTasks="recebiEditar"
       @deleteTasks="delTarefas"
       v-show="mostrarListaTasks"
     ></task-list>
     <div style="margin-bottom: 3%" class="plus center-align add">
       <button
         class="btn-floating btn-large waves-effect waves-light"
-        @click="mostrarListaTasks = false"
+        @click="mostrarCadastro"
         v-show="mostrarListaTasks"
       >
         <i class="fa-solid fa-plus light-blue lighten-2"></i>
       </button>
     </div>
-    <TaskForm @salvarClick="addTarefas" v-show="!mostrarListaTasks" />
-    <EditTask />
+    <TaskForm
+      :titulo="form.titulo"
+      :title="form.title"
+      :project="form.project"
+      :dueTo="form.dueTo"
+      :btn="form.btn"
+      :id="form.id"
+      @salvarClick="addTarefas"
+      @alterarClick="attTarefas"
+      v-show="!mostrarListaTasks"
+    />
     <FooterBar />
   </div>
 </template>
@@ -26,7 +36,6 @@ import Search from "../src/components/Search.vue";
 import FooterBar from "../src/components/FooterBar.vue";
 import TaskList from "../src/components/TaskList.vue";
 import TaskForm from "../src/components/TaskForm.vue";
-import EditTask from "../src/components/EditTask.vue";
 
 import tasksApi from "./tasksApi.js";
 
@@ -40,6 +49,14 @@ export default {
     return {
       tasks: [],
       mostrarListaTasks: true,
+      form: {
+        id: null,
+        title: null,
+        dueTo: null,
+        project: null,
+        usuario: null,
+        btn: "Adicionar",
+      },
     };
   },
   components: {
@@ -47,7 +64,6 @@ export default {
     FooterBar,
     TaskList,
     TaskForm,
-    EditTask,
   },
   methods: {
     obterTarefas() {
@@ -55,15 +71,33 @@ export default {
         this.tasks = respostaApi;
       });
     },
+    mostrarCadastro() {
+      this.mostrarListaTasks = false;
+      this.form.btn = "Adicionar";
+      this.form.titulo = "Adicione uma nova tarefa";
+    },
     addTarefas(novaTarefa) {
       tasksApi.postTasks(novaTarefa, () => {
         this.obterTarefas();
         this.mostrarListaTasks = true;
       });
     },
-    attTarefas() {
-      tasksApi.putTasks((respostaApi) => {
-        this.tasks = respostaApi;
+    recebiEditar(tarefaId) {
+      tasksApi.getTask(tarefaId, (task) => {
+        console.log("ta indo", tarefaId, task);
+        this.form.title = task.title;
+        this.form.project = task.project;
+        this.form.dueTo = task.dueTo;
+        this.form.id = task.id;
+        this.form.btn = "Editar";
+        this.mostrarListaTasks = false;
+        this.form.titulo = "Edite sua tarefa";
+      });
+    },
+    attTarefas(tarefa) {
+      debugger;
+      tasksApi.putTasks(tarefa, () => {
+        console.log("att", tarefa);
         this.obterTarefas();
       });
     },

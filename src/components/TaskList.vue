@@ -20,7 +20,6 @@
             <div class="card-action">
               <a
                 @click="$emit('editarTasks', tarefa.id)"
-                onclick="document.getElementById('modelWin').style.display = 'flex'"
                 class="light-blue-text fa-solid fa-pen-to-square"
               ></a>
               <a

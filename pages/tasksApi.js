@@ -14,6 +14,17 @@ export default {
         console.log("error:", error);
       });
   },
+  getTask: (tarefaId, callback) => {
+    axios
+      .get(`/tasks/${tarefaId}`)
+      .then((response) => {
+        callback(response.data);
+        console.log("get foi");
+      })
+      .catch((error) => {
+        console.log("error:", error);
+      });
+  },
   postTasks: (tasksData, callback) => {
     axios
       .post("/tasks", tasksData)
@@ -25,9 +36,9 @@ export default {
         console.log("error:", error);
       });
   },
-  putTasks: (tarefaId, callback) => {
+  putTasks: (task, callback) => {
     axios
-      .put(`/tasks/${tarefaId}`)
+      .put(`/tasks/${task.id}`, task)
       .then((response) => {
         callback(response.data);
         this.getTasks();
