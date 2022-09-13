@@ -69,6 +69,7 @@ export default {
     obterTarefas() {
       tasksApi.getTasks((respostaApi) => {
         this.tasks = respostaApi;
+        console.log("algo", respostaApi);
       });
     },
     mostrarCadastro() {
@@ -95,8 +96,7 @@ export default {
       });
     },
     attTarefas(tarefa) {
-      debugger;
-      tasksApi.putTasks(tarefa, () => {
+      tasksApi.updateTasks(tarefa, () => {
         console.log("att", tarefa);
         this.obterTarefas();
       });

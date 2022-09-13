@@ -47,11 +47,12 @@
 
                     <div class="input-field col s12">
                       <input
-                        @input="form.dueTo = $event.target.value"
                         type="date"
                         class="datepicker"
                         id="dueTo"
+                        name="dueTo"
                         :value="dueTo"
+                        @input="form.dueTo = $event.target.value"
                       />
                       <label for="dueTo">Date due to</label>
                     </div>
@@ -76,7 +77,7 @@
 
 <script>
 export default {
-  props: ["titulo", "title", "project", "btn", "id"],
+  props: ["titulo", "title", "project", "dueTo", "btn", "id"],
   data() {
     return {
       form: {
@@ -85,12 +86,13 @@ export default {
         dueTo: null,
         project: null,
         usuario: null,
-        // titulo: null,
+        // titulo: '',
       },
     };
   },
   methods: {
     salvarTarefa() {
+      debugger;
       const novaTarefa = {
         title: this.form.title,
         dueTo: this.form.dueTo,
@@ -102,7 +104,21 @@ export default {
       } else {
         novaTarefa.id = this.id;
         this.$emit("alterarClick", novaTarefa);
+        console.log("Nova", novaTarefa);
+        console.log("Form", this.form);
+        debugger;
       }
+    },
+  },
+  watch: {
+    title(newvalue) {
+      this.form.title = newvalue;
+    },
+    project(newvalue) {
+      this.form.project = newvalue;
+    },
+    dueTo(newvalue) {
+      this.form.dueTo = newvalue;
     },
   },
 };

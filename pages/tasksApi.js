@@ -36,15 +36,11 @@ export default {
         console.log("error:", error);
       });
   },
-  putTasks: (task, callback) => {
+  updateTasks: (task, callback) => {
     axios
-      .put(`/tasks/${task.id}`, task)
+      .patch(`http://localhost:3000/tasks/${task.id}`, task)
       .then((response) => {
         callback(response.data);
-        this.getTasks();
-      })
-      .catch((error) => {
-        console.log("error:", error);
       });
   },
   deleteTasks: (tarefaId, callback) => {
